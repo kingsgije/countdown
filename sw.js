@@ -8,7 +8,7 @@
 
 'use strict';
 
-const CACHE_NAME = 'sedona-v1';
+const CACHE_NAME = 'sedona-v2';
 
 /**
  * Assets to pre-cache on install.
@@ -23,6 +23,7 @@ const CORE_ASSETS = [
   './manifest.json',
   './icon.svg',
   './icon-maskable.svg',
+  './robots.txt',
 ];
 
 const OPTIONAL_ASSETS = [

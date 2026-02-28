@@ -146,14 +146,41 @@ function showCelebration() {
 updateCountdown();
 intervalId = setInterval(updateCountdown, 1000);
 
-// ── Service Worker registration ──────────────────────────
+// ── Service Worker registration & fast updates ───────────
+//
+// Key technique: updateViaCache: 'none' tells the browser to always
+// fetch sw.js fresh from the network, bypassing the HTTP cache.
+// Without this, iOS Safari can serve a stale sw.js for up to 24 h.
+//
+// On controllerchange (new SW took over), we reload immediately so
+// users always run the latest code without having to close/reopen.
 
 if ('serviceWorker' in navigator) {
+  // Guard against the reload triggering another controllerchange loop
+  let swRefreshing = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (swRefreshing) return;
+    swRefreshing = true;
+    window.location.reload();
+  });
+
   window.addEventListener('load', () => {
     navigator.serviceWorker
-      .register('./sw.js')
+      .register('./sw.js', {
+        // Never serve sw.js from the HTTP cache — always hit the network.
+        // This is the single most impactful setting for fast PWA updates on iOS.
+        updateViaCache: 'none',
+      })
       .then((reg) => {
         console.log('SW registered, scope:', reg.scope);
+
+        // Check for an update whenever the user returns to the app
+        // (e.g. switches back from another app or browser tab).
+        document.addEventListener('visibilitychange', () => {
+          if (document.visibilityState === 'visible') {
+            reg.update();
+          }
+        });
       })
       .catch((err) => {
         console.warn('SW registration failed:', err);

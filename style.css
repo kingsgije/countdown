@@ -474,6 +474,22 @@ body {
   }
 }
 
+/* ── Version badge ──────────────────────────────────────── */
+.version {
+  position: fixed;
+  /* Bottom-right corner, clear of the home indicator */
+  bottom: max(0.6rem, env(safe-area-inset-bottom, 0px));
+  right:  max(0.75rem, env(safe-area-inset-right, 0px));
+  z-index: 3;
+  font-size: 0.6rem;
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  color: rgba(255, 248, 231, 0.28);
+  /* No pointer events so it never blocks taps */
+  pointer-events: none;
+  user-select: none;
+}
+
 /* Respect user motion preference */
 @media (prefers-reduced-motion: reduce) {
   .background { animation: none; }
