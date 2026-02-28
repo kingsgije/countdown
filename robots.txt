@@ -1,0 +1,8 @@
+# Sedona Adventure Countdown
+# Allow all crawlers — this is a public countdown page.
+User-agent: *
+Allow: /
+
+# Explicitly disallow the service worker file from being indexed
+# (it's JavaScript, not content)
+Disallow: /sw.js

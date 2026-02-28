@@ -6,6 +6,56 @@
   <meta name="theme-color" content="#0f0c29">
   <meta name="description" content="Counting down to the Sedona, Arizona adventure — July 8, 2026">
 
+  <!-- ── Security headers (meta-tag equivalents) ─────────────────────────
+       GitHub Pages cannot set custom HTTP headers, so we use meta tags
+       for the policies that support them.
+
+       X-Content-Type-Options and Permissions-Policy cannot be set via
+       meta tags — they require HTTP response headers (GitHub Pages limitation).
+  ──────────────────────────────────────────────────────────────────────── -->
+
+  <!--
+    Content-Security-Policy
+    • default-src 'none'  — block everything not explicitly allowed
+    • script-src 'self'   — only app.js (no inline scripts, no eval)
+    • style-src  'self' https://fonts.googleapis.com
+    • font-src   https://fonts.gstatic.com
+    • img-src    'self'   — background.avif, icon.svg
+    • connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com
+                          — SW network fetches + font CDN
+    • manifest-src 'self' — manifest.json
+    • worker-src  'self'  — sw.js
+    • object-src  'none'  — block Flash / plugins
+    • base-uri    'self'  — prevent <base> tag injection
+    • form-action 'none'  — no forms in this app
+    Note: frame-ancestors is not honoured in <meta> CSP; it requires an
+    HTTP header. On GitHub Pages this cannot be set, so we accept that
+    limitation and document it here.
+  -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'none';
+    script-src 'self';
+    style-src 'self' https://fonts.googleapis.com;
+    font-src https://fonts.gstatic.com;
+    img-src 'self';
+    connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com;
+    manifest-src 'self';
+    worker-src 'self';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'none';
+  ">
+
+  <!-- Prevent this page from being embedded in an iframe (clickjacking). -->
+  <meta http-equiv="X-Frame-Options" content="DENY">
+
+  <!--
+    Referrer-Policy: only send the origin (no path/query) on cross-origin
+    requests, and full URL on same-origin. Prevents leaking the full URL
+    to third parties (e.g. Google Fonts CDN).
+  -->
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
   <!-- iOS PWA -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
