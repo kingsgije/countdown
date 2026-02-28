@@ -1,0 +1,484 @@
+/* ─────────────────────────────────────────────────────
+   Sedona Adventure Countdown — style.css
+   Color palette pulled from the twilight Sedona photo:
+     Deep sky:      #070514 → #302b63
+     Amber lights:  #ff8c00 / #ffd700
+     Turquoise pool:#40e0d0
+     Red rocks:     #8b3a1f / #cc5500
+   ───────────────────────────────────────────────────── */
+
+/* ── Reset ─────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Design tokens ──────────────────────────────────── */
+:root {
+  --sky-darkest:  #070514;
+  --sky-dark:     #0f0c29;
+  --sky-mid:      #1e1a4a;
+  --sky-purple:   #302b63;
+
+  --amber:        #ff8c00;
+  --gold:         #ffd700;
+  --warm-white:   #fff8e7;
+
+  --turquoise:    #40e0d0;
+  --turquoise-glow: rgba(64, 224, 208, 0.5);
+
+  --rock-dark:    #5a1a0a;
+  --rock-mid:     #8b3a1f;
+
+  /* Glassmorphism card */
+  --glass-bg:     rgba(15, 12, 41, 0.5);
+  --glass-border: rgba(255, 215, 0, 0.18);
+
+  /* Text shadows / glow */
+  --glow-gold:
+    0 0 8px  rgba(255, 215, 0, 1),
+    0 0 20px rgba(255, 175, 0, 0.8),
+    0 0 45px rgba(255, 140, 0, 0.5),
+    0 0 90px rgba(255, 100, 0, 0.25);
+  --glow-white:
+    0 0 10px rgba(255, 248, 231, 0.9),
+    0 0 30px rgba(255, 215, 0, 0.5),
+    0 0 60px rgba(255, 165, 0, 0.25);
+  --glow-turquoise:
+    0 0 8px  rgba(64, 224, 208, 0.9),
+    0 0 20px rgba(64, 224, 208, 0.5);
+}
+
+/* ── Base ───────────────────────────────────────────── */
+html {
+  height: 100%;
+  /* Prevent elastic over-scroll revealing bare chrome */
+  overflow: hidden;
+  background: var(--sky-darkest);
+}
+
+body {
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Montserrat', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  color: var(--warm-white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Disable tap highlight on mobile */
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+/* ── Background photo ───────────────────────────────── */
+.background {
+  position: fixed;
+  inset: 0;
+  /* AVIF photo; plain color fallback if photo is missing */
+  background-color: var(--sky-dark);
+  background-image: url('background.avif');
+  background-size: cover;
+  background-position: center 60%;
+  background-repeat: no-repeat;
+  z-index: 0;
+  /* Subtle scale so it doesn't feel static on first load */
+  animation: slowZoom 60s ease-in-out infinite alternate;
+}
+
+@keyframes slowZoom {
+  from { transform: scale(1);    background-position: center 60%; }
+  to   { transform: scale(1.04); background-position: center 58%; }
+}
+
+/* ── Gradient overlay ───────────────────────────────── */
+/*  Darker at top/bottom so text pops, lighter in the
+    middle so the photo still glows through.            */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(7,   5,  20, 0.82)  0%,
+      rgba(7,   5,  20, 0.30) 28%,
+      rgba(7,   5,  20, 0.18) 50%,
+      rgba(7,   5,  20, 0.38) 72%,
+      rgba(7,   5,  20, 0.80) 100%
+    );
+  z-index: 1;
+}
+
+/* ── App shell ──────────────────────────────────────── */
+.app {
+  position: relative;
+  z-index: 2;
+  /* Use 100dvh (dynamic viewport height) for iOS Safari */
+  height: 100svh;
+  height: 100dvh;
+  /* Honour notch / Dynamic Island / home indicator */
+  padding-top:    max(1.75rem, env(safe-area-inset-top, 0px));
+  padding-bottom: max(1.5rem,  env(safe-area-inset-bottom, 0px));
+  padding-left:   max(1.25rem, env(safe-area-inset-left, 0px));
+  padding-right:  max(1.25rem, env(safe-area-inset-right, 0px));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ── Header ─────────────────────────────────────────── */
+.header {
+  text-align: center;
+  width: 100%;
+  /* Let header breathe a little */
+  padding-top: 0.25rem;
+}
+
+.eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.55em;
+  color: var(--turquoise);
+  text-shadow: var(--glow-turquoise);
+  opacity: 0.85;
+  margin-bottom: 0.6rem;
+}
+
+.title {
+  font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  font-size: clamp(2rem, 9vw, 3.6rem);
+  font-weight: 300;
+  letter-spacing: 0.07em;
+  line-height: 1.1;
+  color: var(--warm-white);
+  text-shadow: var(--glow-white);
+  /* No uppercase — keep the elegance of mixed case */
+  white-space: nowrap;
+}
+
+.subtitle {
+  margin-top: 0.55rem;
+  font-size: clamp(0.6rem, 2.4vw, 0.82rem);
+  font-weight: 300;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 248, 231, 0.65);
+  /* Clamp to one line so it never wraps on narrow screens */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* Turquoise hairline under the subtitle */
+.divider {
+  width: 72px;
+  height: 1px;
+  margin: 1rem auto 0;
+  background: linear-gradient(to right,
+    transparent 0%,
+    var(--turquoise) 50%,
+    transparent 100%
+  );
+  box-shadow: var(--glow-turquoise);
+  opacity: 0.9;
+}
+
+/* ── Countdown grid ─────────────────────────────────── */
+.countdown {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(0.45rem, 1.8vw, 1rem);
+  width: 100%;
+  /* Horizontal safe-area already handled by .app padding */
+}
+
+/* Individual time unit card */
+.unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  /* Glassmorphism */
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: clamp(12px, 3vw, 18px);
+  padding: clamp(0.6rem, 2.5vw, 1.1rem) clamp(0.25rem, 1vw, 0.75rem);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  /* Subtle inset highlight at the top edge */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 215, 0, 0.12),
+    0 4px 24px rgba(0, 0, 0, 0.4);
+  transition: transform 0.15s ease;
+}
+
+/* Large luminous number */
+.number {
+  font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+  font-size: clamp(2.4rem, 11.5vw, 4.8rem);
+  font-weight: 800;
+  /* Tabular nums keep width steady as digits change */
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--warm-white);
+  text-shadow: var(--glow-gold);
+  /* Reserve enough room so layout doesn't shift at 3-digit days */
+  min-width: 2.4ch;
+  text-align: center;
+  /* Subtle flash animation when the digit changes */
+  transition: opacity 0.08s ease;
+}
+
+/* Triggered by JS every second on the seconds element */
+.number.tick {
+  animation: tickPulse 0.12s ease-out;
+}
+
+@keyframes tickPulse {
+  0%   { transform: scaleY(1);    opacity: 1; }
+  40%  { transform: scaleY(0.94); opacity: 0.75; }
+  100% { transform: scaleY(1);    opacity: 1; }
+}
+
+/* Small turquoise label beneath the number */
+.label {
+  font-size: clamp(0.52rem, 1.9vw, 0.7rem);
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--turquoise);
+  text-shadow: var(--glow-turquoise);
+  opacity: 0.9;
+}
+
+/* ── Destination footer ─────────────────────────────── */
+.destination {
+  text-align: center;
+  /* Give a little breathing room above the home bar */
+  padding-bottom: 0.25rem;
+}
+
+.destination-place {
+  font-size: clamp(0.65rem, 2.5vw, 0.85rem);
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255, 248, 231, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  margin-bottom: 0.35rem;
+}
+
+/* Small glowing amber dot separators */
+.destination-dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 6px var(--amber), 0 0 14px rgba(255, 140, 0, 0.5);
+  flex-shrink: 0;
+}
+
+.destination-time {
+  font-size: clamp(0.58rem, 1.9vw, 0.72rem);
+  letter-spacing: 0.14em;
+  color: rgba(255, 248, 231, 0.48);
+}
+
+/* ── Celebration screen ─────────────────────────────── */
+.celebration {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Same overlay treatment — photo still glows through */
+  background: rgba(7, 5, 20, 0.78);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  /* Hidden until triggered */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1.2s ease, visibility 1.2s ease;
+}
+
+.celebration.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.celebration-stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Each JS-injected star particle */
+.star-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 6px var(--gold), 0 0 14px rgba(255, 200, 0, 0.6);
+  animation: starSparkle var(--dur, 2s) var(--delay, 0s) ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes starSparkle {
+  0%   { opacity: 0; transform: scale(0) translateY(0); }
+  30%  { opacity: 1; transform: scale(1) translateY(-8px); }
+  70%  { opacity: 0.6; transform: scale(0.8) translateY(-4px); }
+  100% { opacity: 0; transform: scale(0) translateY(0); }
+}
+
+/* Some turquoise particles for variety */
+.star-particle.teal {
+  background: var(--turquoise);
+  box-shadow: 0 0 6px var(--turquoise), 0 0 14px rgba(64, 224, 208, 0.6);
+}
+
+.celebration-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 2.5rem 2rem;
+  transform: translateY(24px);
+  transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.celebration.visible .celebration-content {
+  transform: translateY(0);
+}
+
+.celebration-glyph {
+  font-size: 2rem;
+  color: var(--turquoise);
+  text-shadow: var(--glow-turquoise);
+  margin-bottom: 1.2rem;
+  animation: celebGlyphSpin 8s linear infinite;
+}
+
+@keyframes celebGlyphSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.celebration-title {
+  font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  font-size: clamp(3rem, 14vw, 6rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+  color: var(--warm-white);
+  text-shadow: var(--glow-gold);
+  margin-bottom: 1.25rem;
+}
+
+.celebration-subtitle {
+  font-size: clamp(0.85rem, 3.5vw, 1.1rem);
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--turquoise);
+  text-shadow: var(--glow-turquoise);
+  margin-bottom: 0.5rem;
+}
+
+.celebration-date {
+  font-size: clamp(0.7rem, 2.5vw, 0.9rem);
+  letter-spacing: 0.15em;
+  color: rgba(255, 248, 231, 0.5);
+}
+
+/* ── Responsive adjustments ────────────────────────── */
+
+/* iPhone SE (375 × 667) and similar compact screens */
+@media (max-width: 390px) {
+  .title {
+    font-size: clamp(1.75rem, 8.5vw, 2.4rem);
+    letter-spacing: 0.05em;
+  }
+  .subtitle {
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+  }
+}
+
+/* Very short viewports (landscape on phones) */
+@media (max-height: 500px) and (orientation: landscape) {
+  .app {
+    padding-top: max(0.5rem, env(safe-area-inset-top, 0px));
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom, 0px));
+    padding-left:  max(2.5rem, env(safe-area-inset-left, 0px));
+    padding-right: max(2.5rem, env(safe-area-inset-right, 0px));
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .header {
+    flex: 0 0 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding-top: 0;
+  }
+
+  .eyebrow,
+  .divider {
+    display: none;
+  }
+
+  .title {
+    font-size: clamp(1.1rem, 4vh, 1.6rem);
+    white-space: nowrap;
+    margin-bottom: 0;
+  }
+
+  .subtitle {
+    display: none;
+  }
+
+  .countdown {
+    flex: 0 0 auto;
+    width: auto;
+    gap: 0.4rem;
+  }
+
+  .number {
+    font-size: clamp(1.8rem, 7vh, 3rem);
+  }
+
+  .destination {
+    flex: 0 0 100%;
+  }
+}
+
+/* Tablets and wider — let units grow a bit */
+@media (min-width: 600px) {
+  .countdown {
+    max-width: 520px;
+  }
+  .unit {
+    padding: 1.25rem 1rem;
+  }
+}
+
+/* Respect user motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .background { animation: none; }
+  .number.tick { animation: none; }
+  .celebration, .celebration-content { transition: none; }
+  .celebration-glyph { animation: none; }
+  .star-particle { animation: none; opacity: 0.8; }
+}

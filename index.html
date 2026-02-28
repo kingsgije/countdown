@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0f0c29">
+  <meta name="description" content="Counting down to the Sedona, Arizona adventure — July 8, 2026">
+
+  <!-- iOS PWA -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Sedona">
+
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="apple-touch-icon" href="icon.svg">
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Google Fonts (cached by SW after first visit) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@300;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <title>Sedona Adventure</title>
+</head>
+<body>
+
+  <!-- Full-screen background photo -->
+  <div class="background"
+       role="img"
+       aria-label="Twilight shot of a Southwest adobe home with glowing pool, warm interior lights, and red rock formations in Sedona, Arizona"></div>
+
+  <!-- Gradient overlay so text stays readable -->
+  <div class="overlay" aria-hidden="true"></div>
+
+  <!-- Main content -->
+  <main class="app">
+
+    <header class="header">
+      <div class="eyebrow" aria-hidden="true">&#10022;&ensp;&#10022;&ensp;&#10022;</div>
+      <h1 class="title">Sedona Adventure</h1>
+      <p class="subtitle">Counting down to our desert escape</p>
+      <div class="divider" aria-hidden="true"></div>
+    </header>
+
+    <section class="countdown" id="countdown" aria-label="Countdown to Sedona vacation">
+      <div class="unit">
+        <div class="number" id="days" aria-label="days remaining">--</div>
+        <div class="label">Days</div>
+      </div>
+      <div class="unit">
+        <div class="number" id="hours" aria-label="hours remaining">--</div>
+        <div class="label">Hours</div>
+      </div>
+      <div class="unit">
+        <div class="number" id="minutes" aria-label="minutes remaining">--</div>
+        <div class="label">Minutes</div>
+      </div>
+      <div class="unit">
+        <div class="number" id="seconds" aria-label="seconds remaining">--</div>
+        <div class="label">Seconds</div>
+      </div>
+    </section>
+
+    <footer class="destination">
+      <div class="destination-place">
+        <span class="destination-dot" aria-hidden="true"></span>
+        Sedona, Arizona
+        <span class="destination-dot" aria-hidden="true"></span>
+      </div>
+      <div class="destination-time">July 8, 2026 &middot; 6:42 AM ET</div>
+    </footer>
+
+  </main>
+
+  <!-- Celebration screen — shown when countdown hits zero -->
+  <div class="celebration" id="celebration" aria-hidden="true">
+    <div class="celebration-stars" id="celebration-stars" aria-hidden="true"></div>
+    <div class="celebration-content">
+      <div class="celebration-glyph" aria-hidden="true">&#10022;</div>
+      <h2 class="celebration-title">The Adventure<br>Begins!</h2>
+      <p class="celebration-subtitle">Sedona, Arizona</p>
+      <div class="celebration-date">July 8, 2026</div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

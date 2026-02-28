@@ -1,0 +1,29 @@
+{
+  "name": "Sedona Adventure Countdown",
+  "short_name": "Sedona",
+  "description": "Countdown to the Sedona, Arizona adventure — July 8, 2026",
+  "id": "sedona-adventure-countdown",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0f0c29",
+  "theme_color": "#0f0c29",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["travel", "utilities"],
+  "lang": "en-US",
+  "dir": "ltr"
+}
